@@ -8,7 +8,7 @@ Open this repository in a GitHub Codespace, then run the following commands in t
 bash setup.sh
 ```
 
-That will install llm, a Python tool for interacting with different LLMs, and llm-groq, which specifically connects to Groq. You will need to create an account and generate an API key at https://console.groq.com/keys. Copy that key, then do the following command in the terminal:
+That will install [llm](https://llm.datasette.io/en/stable/), a Python tool for interacting with different LLMs, and llm-groq, which specifically connects to [Groq](https://groq.com/). You will need to create an account and generate an API key at https://console.groq.com/keys. Copy that key, then do the following command in the terminal:
 
 ```bash
 llm keys set groq
@@ -28,7 +28,7 @@ llm models
 
 ### Text Models
 
-The llm library allows us to chat with LLMs, but also to pass things to those LLMs _and_ to log our conversations in a SQLITE database. Here's one way we can start: asking it to summarize the specific contents of a web page that we'll fetch using curl and a tool called strip-tags that allows us to narrow in on single div in the HTML, which reduces the amount of tokens we send to the LLM (they have limits):
+The llm library allows us to chat with LLMs, but also to pass things to those LLMs _and_ to log our conversations in a SQLite database. Here's one way we can start: asking it to summarize the specific contents of a web page that we'll fetch using curl and a tool called [strip-tags](https://github.com/simonw/strip-tags) that allows us to narrow in on single div in the HTML, which reduces the amount of tokens we send to the LLM (they have limits):
 
 ```bash
  curl -s https://www.niemanlab.org/2025/02/meet-the-journalists-training-ai-models-for-meta-and-openai/ | \
@@ -44,7 +44,7 @@ Text models can do more than summarize; they can restructure information to make
 cat sanctionsfy25.txt | llm -m groq-llama-3.3-70b "produce only an array of JSON objects based on the text with the following keys: name, sanction, date, description. The date should be in the yyyy-mm-dd format. No yapping." 
 ```
 
-That "no yapping" thing? That's one of the ways you get LLMs to stop narrating their output and just give you what you specify.
+That "no yapping" thing? That's one of the ways you get LLMs to stop narrating their output and just give you what you specify. There are other ways - most newer models support "structured output" in JSON format.
 
 ### Vision Models
 
@@ -54,4 +54,4 @@ One of the options we have with Groq is to use a "vision" model that can describ
 llm -m groq/llama-3.2-90b-vision-preview --attachment md_doc.png "what is the license number from this image?"
 ```
 
-You should get something like: "The license number in the image is D25922." as a response.
+You should get something like: "The license number in the image is D25922." as a response. New models that support video and audio also are available and can provide similar capabilities.
