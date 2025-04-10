@@ -31,12 +31,8 @@ llm models
 The llm library allows us to chat with LLMs, but also to pass things to those LLMs _and_ to log our conversations in a SQLite database. Here's one way we can start: asking it to summarize the specific contents of a web page that we'll fetch using curl and a tool called [strip-tags](https://github.com/simonw/strip-tags) that allows us to narrow in on single div in the HTML, which reduces the amount of tokens we send to the LLM (they have limits):
 
 ```bash
- curl -s https://www.niemanlab.org/2025/02/meet-the-journalists-training-ai-models-for-meta-and-openai/ | \
-  strip-tags .simple-leftstream | \
-  llm -m groq-llama-3.3-70b "summarize this story in 3 paragraphs"
+ curl -s https://vcai.umd.edu/about/ | strip-tags .container | llm -m groq-llama-3.3-70b "summarize this text in 3 paragraphs"
 ```
-
-Check out the story: https://www.niemanlab.org/2025/02/meet-the-journalists-training-ai-models-for-meta-and-openai/ and then compare that to the summary.
 
 Text models can do more than summarize; they can restructure information to make it more useful. We'll take a recent document describing sanctions of Maryland attorneys (the sanctionsfy25.txt file in this repository) and send it to Llama 3.3 using the `cat` command, asking the LLM to produce JSON data of some of the contents.
 
