@@ -42,6 +42,20 @@ cat sanctionsfy25.txt | llm -m groq-llama-3.3-70b "produce only an array of JSON
 
 That "no yapping" thing? That's one of the ways you get LLMs to stop narrating their output and just give you what you specify. There are other ways - most newer models support "structured output" in JSON format.
 
+Locating and extracting key pieces of text is a useful process for newsrooms. One of my projects is evaluating how well LLMs do at identifying the name of the political committee from a fundraising email. I have [a collection of more than 240k of them](https://political-emails.herokuapp.com/emails/emails), so I test this out using a random sample of 1,000. Here's a simple way to do that using freely available command line tools and an LLM:
+
+```bash
+curl -s https://political-emails.herokuapp.com/emails/emails/6874.json | jq -r '.rows[0][11]' | llm -m groq-llama-3.3-70b "Extract the name of the political committee from the disclaimer in this email body"
+```
+
+You should see something like:
+
+```text
+The name of the political committee is "Alsobrooks for Senate".
+```
+
+With that information, I can connect fundraising emails to Federal Election Commission data on committees and fundraising activity. Here's [my leaderboard of LLMs](https://thescoop.org/LLM-Extraction-Challenge/).
+
 ### Vision Models
 
 One of the options we have with Groq is to use a "vision" model that can describe the information in certain types of images. Let's test that out using an image from this Maryland physician discipline report: https://www.mbp.state.md.us/BPQAPP/orders/D002592202.265.pdf. The specific vision model we're using only accepts jpg, gif and png files, so I've created a PNG from the first page. Run this command in the terminal:
